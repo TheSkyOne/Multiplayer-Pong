@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://y5nm564n353u"]
+
+[ext_resource type="Script" path="res://GameManager/GameManager.gd" id="1_6xjkq"]
+[ext_resource type="Script" path="res://Lobby/LobbyManager.gd" id="2_ftf1b"]
+[ext_resource type="PackedScene" uid="uid://bebifbuhrorvi" path="res://MainGame/MainGame.tscn" id="2_ujgut"]
+[ext_resource type="PackedScene" uid="uid://bp6ensit2uqm2" path="res://MainMenu/MainMenu.tscn" id="3_c2iqn"]
+
+[node name="GameManager" type="Node"]
+script = ExtResource("1_6xjkq")
+main_game_scene = ExtResource("2_ujgut")
+main_menu_scene = ExtResource("3_c2iqn")
+
+[node name="MainGameMultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://MainGame/MainGame.tscn")
+spawn_path = NodePath("..")
+spawn_limit = 1
+
+[node name="LobbyManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_ftf1b")
+
+[node name="MainMenu" parent="." instance=ExtResource("3_c2iqn")]
+unique_name_in_owner = true

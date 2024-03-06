@@ -1,0 +1,100 @@
+[gd_scene load_steps=13 format=3 uid="uid://bebifbuhrorvi"]
+
+[ext_resource type="Script" path="res://MainGame/MainGame.gd" id="1_102ai"]
+[ext_resource type="PackedScene" uid="uid://d3mfeb53dnic4" path="res://MainGame/GameElements/Paddle/Paddle.tscn" id="2_245a2"]
+[ext_resource type="Script" path="res://MainGame/GameElements/SpawnPoint/SpawnPoint.gd" id="3_ccnja"]
+[ext_resource type="Script" path="res://MainGame/WorldBounds.gd" id="3_ra7en"]
+[ext_resource type="PackedScene" uid="uid://dkrf4h0y3gw7" path="res://MainGame/GameElements/Ball/Ball.tscn" id="4_r5f5b"]
+[ext_resource type="PackedScene" uid="uid://c6jcf7lktifek" path="res://MainGame/GameElements/ScoreArea/ScoreArea.tscn" id="6_vwh15"]
+[ext_resource type="Script" path="res://MainGame/ScoreUI.gd" id="7_rjl0m"]
+[ext_resource type="PackedScene" uid="uid://btdolr7cjoqkj" path="res://MainGame/StartTimerUI.tscn" id="8_meggf"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_786ag"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ia0vb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2r6a2"]
+font_size = 128
+
+[sub_resource type="LabelSettings" id="LabelSettings_trwgs"]
+font_size = 128
+
+[node name="MainGame" type="Node2D"]
+script = ExtResource("1_102ai")
+paddle_scene = ExtResource("2_245a2")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://MainGame/GameElements/Paddle/Paddle.tscn", "res://MainGame/GameElements/Ball/Ball.tscn")
+spawn_path = NodePath("..")
+
+[node name="WorldBounds" type="Node2D" parent="."]
+script = ExtResource("3_ra7en")
+
+[node name="Top" type="StaticBody2D" parent="WorldBounds"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldBounds/Top"]
+shape = SubResource("WorldBoundaryShape2D_786ag")
+
+[node name="Bottom" type="StaticBody2D" parent="WorldBounds"]
+position = Vector2(0, 648)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldBounds/Bottom"]
+shape = SubResource("WorldBoundaryShape2D_ia0vb")
+
+[node name="SpawnPointLeft" type="Marker2D" parent="." groups=["spawn_points"]]
+position = Vector2(100, 324)
+script = ExtResource("3_ccnja")
+
+[node name="SpawnPointRight" type="Marker2D" parent="." groups=["spawn_points"]]
+position = Vector2(1052, 324)
+script = ExtResource("3_ccnja")
+
+[node name="Ball" parent="." instance=ExtResource("4_r5f5b")]
+position = Vector2(576, 324)
+
+[node name="ScoreAreaLeft" parent="." instance=ExtResource("6_vwh15")]
+unique_name_in_owner = true
+position = Vector2(-20, 0)
+
+[node name="ScoreAreaRight" parent="." instance=ExtResource("6_vwh15")]
+unique_name_in_owner = true
+position = Vector2(1172, 0)
+
+[node name="ScoreUI" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+script = ExtResource("7_rjl0m")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScoreUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 64
+
+[node name="ScoresContainer" type="HBoxContainer" parent="ScoreUI/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/separation = 576
+
+[node name="ScoreLeft" type="Label" parent="ScoreUI/MarginContainer/ScoresContainer"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.0392157)
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_2r6a2")
+
+[node name="ScoreRight" type="Label" parent="ScoreUI/MarginContainer/ScoresContainer"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.0392157)
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_trwgs")
+
+[node name="TimerUI" parent="." instance=ExtResource("8_meggf")]
+unique_name_in_owner = true
+visible = true

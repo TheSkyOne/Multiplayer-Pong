@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://d3mfeb53dnic4"]
+
+[ext_resource type="Script" path="res://MainGame/GameElements/Paddle/Paddle.gd" id="1_asus7"]
+[ext_resource type="Script" path="res://MainGame/GameElements/Paddle/InputSynchronizer.gd" id="2_cwe1e"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_37nji"]
+properties/0/path = NodePath("InputSynchronizer:direction_y")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o8mod"]
+size = Vector2(25, 200)
+
+[node name="Paddle" type="CharacterBody2D" groups=["players"]]
+position = Vector2(-12.5, -100)
+motion_mode = 1
+script = ExtResource("1_asus7")
+
+[node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="."]
+unique_name_in_owner = true
+replication_config = SubResource("SceneReplicationConfig_37nji")
+visibility_update_mode = 1
+script = ExtResource("2_cwe1e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(12.5, 100)
+shape = SubResource("RectangleShape2D_o8mod")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+unique_name_in_owner = true
+polygon = PackedVector2Array(0, 0, 25, 0, 25, 200, 0, 200)

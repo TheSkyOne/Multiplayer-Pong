@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://btdolr7cjoqkj"]
+
+[ext_resource type="Script" path="res://GameManager/TimerUI.gd" id="1_ab65x"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3337v"]
+font_size = 384
+
+[node name="TimerUI" type="CanvasLayer"]
+process_mode = 2
+visible = false
+script = ExtResource("1_ab65x")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartTimerTimeLeftLabel" type="Label" parent="CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+label_settings = SubResource("LabelSettings_3337v")
